@@ -84,6 +84,8 @@ class Auth:
         if not res.ok:
             raise AuthException(res)
         json_data = res.json()
+        if len(json_data['errors']) > 0:
+            raise AuthException(json_data['errors'][0]['message'])
         profiles = json_data["data"]["login"]["account"]["profiles"]
         access_token = json_data["extensions"]["sdk"]["token"]["accessToken"]
         return access_token, profiles
