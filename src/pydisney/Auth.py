@@ -234,6 +234,7 @@ class Auth:
             if 'auth.expired' in response.text:
                 logger.warning("Access token is expired, refreshing...")
                 Auth.refreshToken()
+                return Auth.make_request(method, url, data, headers, params, files)
             else:
                 raise ApiException(response)
 
