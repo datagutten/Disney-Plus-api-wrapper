@@ -36,6 +36,6 @@ def update_file():
         token_data = {
             "token": APIConfig.token,
             "refresh": APIConfig.refresh,
-            "expiration_time": expiration_time.strftime("%Y-%m-%d %H:%M:%S")
+            "expiration_time": expiration_time.isoformat()
         }
         json.dump(token_data, file)

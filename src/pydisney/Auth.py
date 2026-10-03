@@ -302,7 +302,10 @@ class Auth:
                 expiration_time_str = data["expiration_time"]
 
                 # Convert the expiration time string back to a datetime object
-                expiration_time = datetime.strptime(expiration_time_str, "%Y-%m-%d %H:%M:%S")
+                try:
+                    expiration_time = datetime.fromisoformat(expiration_time_str)
+                except ValueError:
+                    expiration_time = datetime.strptime(expiration_time_str, "%Y-%m-%d %H:%M:%S")
 
                 # Check if the token is still valid
                 current_time = datetime.now()
