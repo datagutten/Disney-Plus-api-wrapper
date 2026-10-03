@@ -175,6 +175,7 @@ class Auth:
             refresh = data["refresh"]
 
             logger.info("Refreshing access token using refresh token from token.json file")
+            logger.info("Token expires %s, now is %s" % (data['expiration_time'], datetime.now().isoformat()))
             graph_mutation = {
                 "query": "mutation refreshToken($input:RefreshTokenInput!){refreshToken(refreshToken:$input){activeSession{sessionId}}}",
                 "variables": {
@@ -232,7 +233,8 @@ class Auth:
 
         if not response.ok:
             if 'auth.expired' in response.text:
-                logger.warning("Access token is expired, refreshing...")
+                logger.warning("Access token is unexpectedly expired, refreshing...")
+                print(response.text)
                 Auth.refreshToken()
                 return Auth.make_request(method, url, data, headers, params, files)
             else:
