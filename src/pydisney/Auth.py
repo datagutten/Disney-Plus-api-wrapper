@@ -314,7 +314,7 @@ class Auth:
                 # Check if the token is still valid
                 current_time = datetime.now()
                 if current_time < expiration_time:
-                    logger.info("Authenticating using token from token.json file")
+                    logger.info("Authenticating using token from token.json file expiring %s" % expiration_time_str)
 
                     APIConfig.token = token
                     APIConfig.refresh = refresh
