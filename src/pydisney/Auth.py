@@ -231,7 +231,11 @@ class Auth:
         response = requests.request(method, url, headers=headers, json=data, params=params, files=files, timeout=10)
 
         if not response.ok:
-            raise ApiException(response)
+            if 'auth.expired' in response.text:
+                logger.warning("Access token is expired, refreshing...")
+                Auth.refreshToken()
+            else:
+                raise ApiException(response)
 
         return response.json()
 
